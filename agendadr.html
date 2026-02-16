@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agenda Defensor Oficial</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #6a11cb; --secondary: #2575fc;
+            --accent: #3498db; --success: #27ae60;
+            --danger: #e74c3c; --warning: #f1c40f;
+            --light: #f8f9fa; --white: #ffffff;
+            --border: #dee2e6; --shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body { background: #f0f2f5; color: #333; display: flex; min-height: 100vh; }
+
+        /* Sidebar */
+        .sidebar { width: 300px; background: var(--white); border-right: 1px solid var(--border); padding: 20px; display: flex; flex-direction: column; gap: 15px; box-shadow: 2px 0 10px rgba(0,0,0,0.05); }
+        .sidebar h2 { font-size: 1.1rem; border-bottom: 2px solid var(--light); padding-bottom: 10px; color: var(--primary); }
+
+        /* Main Content */
+        .main-content { flex: 1; padding: 25px; display: flex; flex-direction: column; }
+        header { display: flex; justify-content: space-between; align-items: center; background: var(--white); padding: 20px; border-radius: 12px; margin-bottom: 20px; box-shadow: var(--shadow); }
+
+        /* Calendario */
+        .calendar-container { background: var(--white); padding: 20px; border-radius: 12px; box-shadow: var(--shadow); flex-grow: 1; }
+        .calendar-grid { 
+            display: grid; 
+            grid-template-columns: repeat(7, 1fr); 
+            gap: 2px; 
+            background-color: var(--border); 
+            border: 1px solid var(--border);
+        }
+        .weekday { 
+            background-color: var(--secondary); 
+            color: white; 
+            text-align: center; 
+            padding: 12px; 
+            font-weight: bold; 
+            font-size: 0.9rem;
+        }
+        .day { 
+            background-color: var(--white); 
+            min-height: 110px; 
+            padding: 8px; 
+            cursor: pointer; 
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            transition: all 0.2s;
+        }
+        .day:hover { background-color: #f1f7ff; }
+        .day.today { background-color: #fff9db; border: 2px solid var(--warning); }
+        .day.selected { background-color: #e8f0fe; border: 2px solid var(--secondary); z-index: 10; }
+        .day.empty { background-color: #fafafa; cursor: default; }
+        .day span.day-number { font-weight: bold; color: #666; }
+        
+        .event-dot { width: 8px; height: 8px; background: var(--danger); border-radius: 50%; margin-top: 5px; align-self: center; }
+
+        /* Botones y UI */
+        .btn { padding: 10px 15px; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; }
+        .btn-primary { background: linear-gradient(to right, var(--primary), var(--secondary)); color: white; }
+        .btn-warning { background: var(--warning); color: #333; }
+        .btn-danger { background: var(--danger); color: white; }
+        .btn-outline { border: 1px solid var(--border); background: transparent; }
+        
+        .event-side-card { background: var(--light); padding: 10px; border-radius: 8px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; border-left: 4px solid var(--danger); cursor: pointer; }
+        .event-side-card:hover { background: #eee; }
+
+        /* Modales */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); z-index: 1000; justify-content: center; align-items: center; }
+        .modal-content { background: white; padding: 30px; border-radius: 12px; width: 90%; max-width: 500px; position: relative; max-height: 90vh; overflow-y: auto; }
+        
+        .close-modal { position: absolute; top: 15px; right: 15px; font-size: 1.5rem; cursor: pointer; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; font-size: 0.85rem; }
+        input, select, textarea { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; }
+
+        .outlook-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        .outlook-table th, .outlook-table td { padding: 12px; text-align: left; border-bottom: 1px solid var(--light); font-size: 0.9rem; }
+    </style>
+
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+</head>
+<body>
+
+    <aside class="sidebar">
+        <div style="text-align: center;">
+            <h1 style="font-size: 1.3rem; margin-top: 10px;">Agenda Defensor Oficial</h1>
+        </div>
+        
+        <button class="btn btn-primary" onclick="openEventModal()" style="width: 100%;"><i class="fas fa-plus"></i> Nuevo Evento</button>
+        <button class="btn btn-warning" onclick="openOutlook()" style="width: 100%;"><i class="fas fa-bolt"></i> Próximos 3 Días</button>
+
+        <hr style="border: 0; border-top: 1px solid var(--border); margin-top: 10px;">
+        <h2 id="selected-date-title"><i class="fas fa-calendar-day"></i> Eventos del día</h2>
+        <div id="selected-day-events" style="flex-grow: 1; overflow-y: auto; background: var(--light); border-radius: 8px; padding: 10px;">
+            <p style="color: #999; text-align: center; font-size: 0.8rem; margin-top: 20px;">Selecciona un día en el calendario.</p>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header>
+            <div>
+                <h2 id="current-month-label">Mes Año</h2>
+                <p id="today-date-label" style="color: #888; font-size: 0.85rem;"></p>
+            </div>
+            <div style="display: flex; gap: 10px;">
+                <button class="btn btn-outline" onclick="moveMonth(-1)"><i class="fas fa-chevron-left"></i></button>
+                <button class="btn btn-outline" onclick="goToday()">Hoy</button>
+                <button class="btn btn-outline" onclick="moveMonth(1)"><i class="fas fa-chevron-right"></i></button>
+            </div>
+        </header>
+
+        <div class="calendar-container">
+            <div id="calendar-grid" class="calendar-grid"></div>
+        </div>
+    </main>
+
+    <div id="event-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('event-modal')">&times;</span>
+            <h2 id="event-modal-title">Evento</h2><br>
+            <input type="hidden" id="event-id">
+            <div class="form-group">
+                <label>Título</label>
+                <input type="text" id="ev-title">
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                <div class="form-group"><label>Inicio</label><input type="datetime-local" id="ev-startDate"></div>
+                <div class="form-group"><label>Fin</label><input type="datetime-local" id="ev-endDate"></div>
+            </div>
+            <div class="form-group">
+                <label>Descripción</label>
+                <textarea id="ev-description" rows="3"></textarea>
+            </div>
+            <div style="display: flex; gap: 10px;">
+                <button class="btn btn-primary" onclick="saveEvent()" style="flex: 1;">Guardar Cambios</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="outlook-modal" class="modal">
+        <div class="modal-content" style="max-width: 700px;">
+            <span class="close-modal" onclick="closeModal('outlook-modal')">&times;</span>
+            <h2>Próximos 3 Días</h2><br>
+            <table class="outlook-table">
+                <thead><tr><th>Día</th><th>Hora</th><th>Asunto</th></tr></thead>
+                <tbody id="outlook-body"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyBZZOjKInC-GpNvhyRSXWs3x6w_JQ7TtuU",
+            authDomain: "agendatareas6.firebaseapp.com",
+            projectId: "agendatareas6",
+            storageBucket: "agendatareas6.firebasestorage.app",
+            messagingSenderId: "861923763083",
+            appId: "1:861923763083:web:ec9b30c50ce3fec057058e"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        const mainRef = db.collection('users').doc('defaultUser');
+
+        let events = [];
+        let viewDate = new Date();
+        let selectedDateStr = new Date().toLocaleDateString('en-CA'); 
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('today-date-label').innerText = new Date().toLocaleDateString('es-ES', {weekday:'long', day:'numeric', month:'long', year:'numeric'});
+            loadFirebaseData();
+        });
+
+        function loadFirebaseData() {
+            mainRef.collection('events').orderBy('startDate', 'asc').onSnapshot(snap => {
+                events = snap.docs.map(doc => ({id: doc.id, ...doc.data()}));
+                renderCalendar();
+                renderSelectedDateEvents();
+            });
+        }
+
+        function renderSelectedDateEvents() {
+            const container = document.getElementById('selected-day-events');
+            const title = document.getElementById('selected-date-title');
+            const dateObj = new Date(selectedDateStr + "T12:00:00");
+            const dateTxt = dateObj.toLocaleDateString('es-ES', { day:'numeric', month:'short' });
+            title.innerHTML = `<i class="fas fa-calendar-day"></i> Eventos (${dateTxt})`;
+
+            const filtered = events.filter(e => e.startDate && e.startDate.startsWith(selectedDateStr));
+
+            if (filtered.length === 0) {
+                container.innerHTML = '<p style="color: #999; text-align: center; font-size: 0.8rem; margin-top: 20px;">No hay eventos para esta fecha.</p>';
+                return;
+            }
+
+            container.innerHTML = filtered.map(e => {
+                const time = e.startDate ? e.startDate.split('T')[1] : '--:--';
+                return `
+                    <div class="event-side-card" onclick="openEventModal('${e.id}')">
+                        <div style="flex-grow: 1;">
+                            <strong>${e.title}</strong>
+                            <div style="font-size: 0.75rem; color: #666;">${time}</div>
+                        </div>
+                        <i class="fas fa-chevron-right" style="color: #ccc; font-size: 0.7rem;"></i>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function renderCalendar() {
+            const grid = document.getElementById('calendar-grid');
+            grid.innerHTML = '';
+            const month = viewDate.getMonth();
+            const year = viewDate.getFullYear();
+            const monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+            document.getElementById('current-month-label').innerText = `${monthNames[month]} ${year}`;
+
+            ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'].forEach(d => {
+                const h = document.createElement('div'); h.className = 'weekday'; h.innerText = d; grid.appendChild(h);
+            });
+
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+            for (let i = 0; i < firstDay; i++) {
+                const e = document.createElement('div'); e.className = 'day empty'; grid.appendChild(e);
+            }
+
+            const todayStr = new Date().toLocaleDateString('en-CA');
+            for (let d = 1; d <= daysInMonth; d++) {
+                const currentDay = new Date(year, month, d);
+                const currentStr = currentDay.toLocaleDateString('en-CA');
+                
+                const dayDiv = document.createElement('div');
+                dayDiv.className = `day ${currentStr === todayStr ? 'today' : ''} ${currentStr === selectedDateStr ? 'selected' : ''}`;
+                dayDiv.innerHTML = `<span class="day-number">${d}</span>`;
+
+                const dayEvents = events.filter(e => e.startDate && e.startDate.startsWith(currentStr));
+                dayEvents.forEach(ev => {
+                    const dot = document.createElement('div'); dot.className = 'event-dot'; dayDiv.appendChild(dot);
+                });
+
+                dayDiv.onclick = () => {
+                    selectedDateStr = currentStr;
+                    renderCalendar();
+                    renderSelectedDateEvents();
+                };
+                grid.appendChild(dayDiv);
+            }
+        }
+
+        function moveMonth(dir) { viewDate.setMonth(viewDate.getMonth() + dir); renderCalendar(); }
+        function goToday() { viewDate = new Date(); selectedDateStr = viewDate.toLocaleDateString('en-CA'); renderCalendar(); renderSelectedDateEvents(); }
+
+        async function saveEvent() {
+            const id = document.getElementById('event-id').value;
+            const data = {
+                title: document.getElementById('ev-title').value,
+                startDate: document.getElementById('ev-startDate').value,
+                endDate: document.getElementById('ev-endDate').value,
+                description: document.getElementById('ev-description').value,
+                type: 'event'
+            };
+            if(!data.title || !data.startDate) return;
+            if(id) await mainRef.collection('events').doc(id).update(data);
+            else await mainRef.collection('events').add(data);
+            closeModal('event-modal');
+        }
+
+        function openEventModal(id = null, start = '') {
+            document.getElementById('event-id').value = id || '';
+            if(id) {
+                const e = events.find(x => x.id === id);
+                document.getElementById('ev-title').value = e.title;
+                document.getElementById('ev-startDate').value = e.startDate || '';
+                document.getElementById('ev-endDate').value = e.endDate || '';
+                document.getElementById('ev-description').value = e.description || '';
+            } else {
+                document.querySelectorAll('#event-modal input, #event-modal textarea').forEach(i => i.value = '');
+                document.getElementById('ev-startDate').value = start || (selectedDateStr + "T09:00");
+            }
+            document.getElementById('event-modal').style.display = 'flex';
+        }
+
+        function openOutlook() {
+            const body = document.getElementById('outlook-body');
+            body.innerHTML = '';
+            const now = new Date();
+            const limit = new Date(); limit.setDate(now.getDate() + 3);
+            const upcoming = events.filter(e => {
+                const d = new Date(e.startDate); return d >= now && d <= limit;
+            }).sort((a,b) => new Date(a.startDate) - new Date(b.startDate));
+
+            upcoming.forEach(e => {
+                const d = new Date(e.startDate);
+                body.innerHTML += `<tr><td>${d.toLocaleDateString('es-ES', {weekday:'short', day:'numeric'})}</td><td>${d.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})}</td><td>${e.title}</td></tr>`;
+            });
+            document.getElementById('outlook-modal').style.display = 'flex';
+        }
+
+        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+    </script>
+</body>
+</html>
