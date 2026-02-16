@@ -1,0 +1,1035 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Dictámenes Escritos Modelos</title>
+  <style>
+    /* Variables CSS inspiradas en causas.html */
+    :root {
+      --primary-blue: #007bff;
+      --primary-light-blue: #e7f4ff;
+      --primary-dark-blue: #0056b3;
+      --secondary-gray: #f8f9fa;
+      --secondary-light-gray: #e9ecef;
+      --secondary-dark-gray: #6c757d;
+      --status-success: #28a745;
+      --status-warning: #ffc107;
+      --status-danger: #dc3545;
+      --status-info: #17a2b8;
+      --text-primary: #212529;
+      --text-secondary: #6c757d;
+      --text-link: #007bff;
+      --text-light: #ffffff;
+      --background-default: #ffffff;
+      --background-card: #ffffff;
+      --background-header: #ffffff;
+      --background-table-header: #f8f9fa;
+      --border-default: #dee2e6;
+      --font-family: 'Arial', 'Helvetica', sans-serif;
+      --display-size: 24px;
+      --h1-size: 20px;
+      --h2-size: 18px;
+      --body-large-size: 16px;
+      --body-regular-size: 14px;
+      --caption-size: 12px;
+      --font-weight-regular: 400;
+      --font-weight-semibold: 600;
+      --font-weight-bold: 700;
+      --spacing-unit: 8px;
+      --spacing-xs: 4px;
+      --spacing-s: 8px;
+      --spacing-m: 16px;
+      --spacing-l: 24px;
+      --spacing-xl: 32px;
+      --spacing-gutter: 20px;
+      --border-radius-small: 2px;
+      --border-radius-default: 4px;
+      --border-radius-pill: 20px;
+      --shadow-none: none;
+      --shadow-subtle: 0 1px 3px rgba(0,0,0,0.1);
+      --shadow: 0 4px 15px rgba(0,0,0,.08);
+    }
+
+    /* Estilos base */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-family);
+      background-color: var(--secondary-gray);
+      color: var(--text-primary);
+      line-height: 1.5;
+      min-height: 100vh;
+    }
+
+    /* Header */
+    .header {
+      background-color: var(--background-header);
+      border-bottom: 1px solid var(--border-default);
+      padding: var(--spacing-s) var(--spacing-m);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: var(--shadow-subtle);
+    }
+
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1300px;
+      margin: 0 auto;
+    }
+
+    .logo {
+      font-size: var(--h1-size);
+      font-weight: var(--font-weight-bold);
+      color: var(--primary-blue);
+    }
+
+    /* Contenedor principal */
+    .container {
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: var(--spacing-m) var(--spacing-gutter);
+    }
+
+    /* Header buttons */
+    .header-buttons {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      gap: var(--spacing-s);
+      margin-bottom: var(--spacing-m);
+      flex-wrap: wrap; 
+    }
+
+    .header-btn {
+      background-color: var(--primary-blue);
+      color: var(--text-light);
+      padding: var(--spacing-s) var(--spacing-m);
+      border: none;
+      border-radius: var(--border-radius-default);
+      cursor: pointer;
+      font-weight: var(--font-weight-semibold);
+      font-size: var(--body-regular-size);
+      text-decoration: none;
+      white-space: nowrap;
+      transition: background-color 0.2s, color 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: var(--spacing-xs);
+      flex-shrink: 0;
+    }
+
+    .header-btn:hover {
+      background-color: var(--primary-dark-blue);
+    }
+
+    /* Estilo para botones azul suave */
+    .header-btn.soft-blue {
+      background-color: var(--primary-light-blue);
+      color: var(--primary-dark-blue);
+      border: 1px solid var(--primary-blue);
+    }
+
+    .header-btn.soft-blue:hover {
+      background-color: var(--primary-blue);
+      color: var(--text-light);
+    }
+
+    /* Panel de búsqueda y acciones */
+    .actions-panel {
+      background-color: var(--background-card);
+      padding: var(--spacing-m);
+      border-radius: var(--border-radius-default);
+      border: 1px solid var(--border-default);
+      margin-bottom: var(--spacing-xl);
+      box-shadow: var(--shadow-subtle);
+    }
+
+    .search-section {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--spacing-m);
+      align-items: center;
+      margin-bottom: var(--spacing-m);
+    }
+
+    .search-input {
+      flex: 1;
+      min-width: 300px;
+      padding: var(--spacing-s);
+      border: 1px solid var(--border-default);
+      border-radius: var(--border-radius-default);
+      font-size: var(--body-regular-size);
+      transition: border-color 0.2s;
+    }
+
+    .search-input:focus {
+      outline: none;
+      border-color: var(--primary-blue);
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: var(--spacing-s);
+      flex-wrap: wrap;
+    }
+
+    .button {
+      background-color: var(--primary-blue);
+      color: var(--text-light);
+      border: none;
+      border-radius: var(--border-radius-default);
+      padding: var(--spacing-s) var(--spacing-m);
+      font-size: var(--body-regular-size);
+      cursor: pointer;
+      transition: background-color 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: var(--spacing-xs);
+      font-weight: var(--font-weight-semibold);
+    }
+
+    .button:hover {
+      opacity: 0.9;
+    }
+
+    .button-success {
+      background-color: var(--status-success);
+    }
+
+    /* Secciones diferenciadas */
+    .section {
+      margin-bottom: var(--spacing-xl);
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: var(--spacing-m);
+      padding-bottom: var(--spacing-s);
+      border-bottom: 2px solid var(--primary-blue);
+    }
+
+    .section-title {
+      font-size: var(--h1-size);
+      font-weight: var(--font-weight-semibold);
+      color: var(--primary-blue);
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-s);
+    }
+
+    .section-count {
+      background-color: var(--primary-blue);
+      color: var(--text-light);
+      border-radius: var(--border-radius-pill);
+      padding: var(--spacing-xs) var(--spacing-s);
+      font-size: var(--caption-size);
+      font-weight: var(--font-weight-bold);
+    }
+
+    /* Tabla de documentos */
+    .table-section {
+      background-color: var(--background-card);
+      border-radius: var(--border-radius-default);
+      border: 1px solid var(--border-default);
+      overflow: hidden;
+      box-shadow: var(--shadow-subtle);
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+    }
+
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed;
+    }
+
+    .data-table th {
+      background-color: var(--background-table-header);
+      font-weight: var(--font-weight-semibold);
+      border-bottom: 2px solid var(--border-default);
+      padding: var(--spacing-m);
+      color: var(--text-primary);
+      font-size: var(--caption-size);
+      text-transform: uppercase;
+    }
+
+    .data-table td {
+      border-bottom: 1px solid var(--border-default);
+      padding: var(--spacing-m);
+      color: var(--text-primary);
+      font-size: var(--body-regular-size);
+    }
+
+    .data-table tr:hover td {
+      background-color: var(--secondary-gray);
+    }
+
+    .doc-name {
+      font-weight: var(--font-weight-semibold);
+      color: var(--primary-blue);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .doc-meta {
+      color: var(--text-secondary);
+      font-size: var(--caption-size);
+    }
+
+    .doc-actions {
+      display: flex;
+      gap: var(--spacing-s);
+    }
+
+    .doc-link {
+      color: var(--primary-blue);
+      text-decoration: none;
+      font-weight: var(--font-weight-semibold);
+      font-size: var(--caption-size);
+      display: inline-flex;
+      align-items: center;
+      gap: var(--spacing-xs);
+    }
+
+    .edit-btn {
+      background: var(--status-success);
+      color: white;
+      padding: 6px 10px;
+      border-radius: var(--border-radius-default);
+      border: none;
+      cursor: pointer;
+      font-size: var(--caption-size);
+      font-weight: var(--font-weight-semibold);
+      display: inline-flex;
+      align-items: center;
+      gap: var(--spacing-xs);
+    }
+
+    .empty-state {
+      color: var(--text-secondary);
+      text-align: center;
+      padding: var(--spacing-l);
+      font-style: italic;
+    }
+
+    /* Paginación */
+    .pagination-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: var(--spacing-m);
+      background: var(--background-card);
+      border-top: 1px solid var(--border-default);
+    }
+
+    .pagination-controls {
+      display: flex;
+      gap: var(--spacing-s);
+      align-items: center;
+    }
+
+    .page-btn {
+      background: var(--secondary-light-gray);
+      border: 1px solid var(--border-default);
+      border-radius: var(--border-radius-default);
+      padding: 6px 10px;
+      cursor: pointer;
+      font-size: var(--caption-size);
+      min-width: 32px;
+      text-align: center;
+    }
+
+    .page-btn.active {
+      background: var(--primary-blue);
+      color: var(--text-light);
+    }
+
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.6);
+      justify-content: center;
+      align-items: center;
+      padding: var(--spacing-m);
+      z-index: 2000;
+    }
+
+    .modal-content {
+      background: var(--background-card);
+      border-radius: var(--border-radius-default);
+      padding: var(--spacing-l);
+      max-width: 520px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .modal-header {
+      background: var(--primary-blue);
+      color: var(--text-light);
+      padding: var(--spacing-s) var(--spacing-m);
+      font-size: var(--h2-size);
+      font-weight: var(--font-weight-semibold);
+      border-radius: var(--border-radius-default) var(--border-radius-default) 0 0;
+    }
+
+    .form-row {
+      margin-bottom: var(--spacing-m);
+      padding: 0 var(--spacing-m);
+    }
+    
+    #fileUrlWrap {
+        word-break: break-all;
+    }
+
+    label {
+      display: block;
+      font-weight: var(--font-weight-semibold);
+      margin-bottom: var(--spacing-xs);
+      font-size: var(--body-regular-size);
+    }
+
+    input[type="text"], select, textarea {
+      width: 100%;
+      padding: var(--spacing-s);
+      border-radius: var(--border-radius-default);
+      border: 1px solid var(--border-default);
+    }
+
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: var(--spacing-s);
+      padding: var(--spacing-m);
+    }
+
+    /* Progreso */
+    #progressWrap {
+      display: none;
+      margin: var(--spacing-m) 0;
+      text-align: center;
+    }
+
+    .progressBar {
+      height: 12px;
+      background: var(--secondary-light-gray);
+      border-radius: var(--border-radius-pill);
+      overflow: hidden;
+    }
+
+    .progressFill {
+      height: 100%;
+      width: 0;
+      background: var(--primary-blue);
+      transition: width 0.3s;
+    }
+
+    /* MEDIA QUERIES PARA MÓVILES Y TABLETS */
+    @media (max-width: 992px) {
+        .container {
+            padding: var(--spacing-s) var(--spacing-s);
+        }
+    }
+
+    @media (max-width: 768px) {
+      /* Ajuste de botones superiores: Grilla de 2 columnas */
+      .header-buttons {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        width: 100%;
+      }
+      
+      .header-btn {
+        width: 100%;
+        justify-content: center;
+        text-align: center;
+        font-size: 13px;
+        padding: 10px 5px;
+        white-space: normal;
+        line-height: 1.2;
+      }
+
+      /* Panel de Búsqueda */
+      .search-section {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+      }
+      
+      .search-input {
+        min-width: 100%;
+      }
+
+      .action-buttons {
+        width: 100%;
+      }
+      
+      .button {
+        flex: 1;
+        justify-content: center;
+      }
+
+      /* TRANSICIÓN DE TABLA A CARDS (TARJETAS) */
+      .data-table thead {
+        display: none; /* Ocultar cabeceras tradicionales */
+      }
+
+      .data-table, 
+      .data-table tbody, 
+      .data-table tr, 
+      .data-table td {
+        display: block;
+        width: 100%;
+      }
+
+      .data-table tr {
+        margin-bottom: 15px;
+        border: 1px solid var(--border-default);
+        border-radius: var(--border-radius-default);
+        background: var(--background-card);
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        padding: 5px 0;
+      }
+
+      .data-table td {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        padding: 10px 15px;
+        border-bottom: 1px solid var(--secondary-light-gray);
+        text-align: right;
+        min-height: auto;
+      }
+
+      .data-table td:last-child {
+        border-bottom: none;
+        padding-top: 15px;
+        justify-content: flex-end;
+      }
+
+      /* Usamos pseudoelementos para las etiquetas */
+      .data-table td::before {
+        content: attr(data-label);
+        font-weight: var(--font-weight-bold);
+        text-transform: uppercase;
+        font-size: 11px;
+        color: var(--text-secondary);
+        text-align: left;
+        margin-right: 15px;
+        flex: 1;
+        margin-top: 3px;
+      }
+
+      /* Ajustes de contenido dentro de las cards */
+      .doc-name, .doc-detail, .doc-theme {
+        white-space: normal; /* Permitir salto de línea */
+        overflow: visible;
+        text-align: right;
+        flex: 2;
+        font-size: 14px;
+      }
+      
+      .doc-meta {
+          flex: 2;
+          text-align: right;
+      }
+
+      .doc-actions {
+        width: 100%;
+        justify-content: flex-end;
+      }
+
+      /* Paginación Mobile */
+      .pagination-container {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      /* Modal Mobile */
+      .modal-content {
+        width: 95%;
+        padding: var(--spacing-m);
+        margin: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="header-content">
+      <div class="logo"></div>
+    </div>
+  </div>
+
+  <div class="container">
+      <a href="https://defensorialocal-seis.github.io/modelosvarios/" class="header-btn soft-blue">
+        <i class="fa-solid fa-folder-open"></i> Modelos Varios
+      </a>
+
+      <a href="https://defensorialocal-seis.github.io/ayuda-plazos" class="header-btn soft-blue">
+        <i class="fa-solid fa-calendar-days"></i> Plazos procesales
+      </a>
+
+      <a href="https://defensorialocal-seis.github.io/ayuda-info/" class="header-btn soft-blue">
+        <i class="fa-solid fa-circle-info"></i>Anexo Info
+      </a>
+    </div>
+
+    <div class="actions-panel">
+      <div class="search-section">
+        <input type="text" id="searchInput" class="search-input" placeholder="🔍 Buscar por nombre, tema, detalle, dictamen o categoría" />
+        <div class="action-buttons">
+          <button class="button" id="openFileBtn">
+            <i class="fa-solid fa-upload"></i> Importar dictamen/escrito
+          </button>
+        </div>
+        <input type="file" id="fileInput" style="display:none" accept=".pdf,application/pdf,image/*,.doc,.docx,.odt,.txt,.rtf" />
+      </div>
+    </div>
+
+    <div id="progressWrap">
+      <div class="small-note">Subida en progreso: <span id="progressPercent">0%</span></div>
+      <div class="progressBar"><div class="progressFill" id="progressFill"></div></div>
+    </div>
+
+    <section class="section" id="civilSection">
+      <div class="section-header">
+        <h2 class="section-title">
+          <i class="fa-solid fa-scale-balanced"></i> Civil
+          <span class="section-count" id="civilCount">0</span>
+        </h2>
+        <div class="section-actions">
+          <button class="button btn-small add-btn" data-cat="Civil">
+            <i class="fa-solid fa-plus"></i> Agregar
+          </button>
+        </div>
+      </div>
+      <div class="table-section">
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th style="width: 20%;">Nombre</th>
+                <th style="width: 12%;">Fecha</th>
+                <th style="width: 15%;">Usuario</th>
+                <th style="width: 18%;">Temática</th>
+                <th style="width: 20%;">Detalle</th>
+                <th style="width: 15%;">Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="civilDocuments"></tbody>
+          </table>
+        </div>
+        <div class="pagination-container" id="civilPagination">
+          <div class="pagination-info" id="civilPaginationInfo">Página 1 de 1</div>
+          <div class="pagination-controls">
+            <button class="page-btn" id="civilPrevBtn" disabled>‹</button>
+            <div class="page-numbers" id="civilPageNumbers"></div>
+            <button class="page-btn" id="civilNextBtn" disabled>›</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="familiaSection">
+      <div class="section-header">
+        <h2 class="section-title">
+          <i class="fa-solid fa-people-roof"></i> Familia
+          <span class="section-count" id="familiaCount">0</span>
+        </h2>
+        <div class="section-actions">
+          <button class="button btn-small add-btn" data-cat="Familia">
+            <i class="fa-solid fa-plus"></i> Agregar
+          </button>
+        </div>
+      </div>
+      <div class="table-section">
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th style="width: 20%;">Nombre</th>
+                <th style="width: 12%;">Fecha</th>
+                <th style="width: 15%;">Usuario</th>
+                <th style="width: 18%;">Temática</th>
+                <th style="width: 20%;">Detalle</th>
+                <th style="width: 15%;">Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="familiaDocuments"></tbody>
+          </table>
+        </div>
+        <div class="pagination-container" id="familiaPagination">
+          <div class="pagination-info" id="familiaPaginationInfo">Página 1 de 1</div>
+          <div class="pagination-controls">
+            <button class="page-btn" id="familiaPrevBtn" disabled>‹</button>
+            <div class="page-numbers" id="familiaPageNumbers"></div>
+            <button class="page-btn" id="familiaNextBtn" disabled>›</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="violenciaSection">
+      <div class="section-header">
+        <h2 class="section-title">
+          <i class="fa-solid fa-triangle-exclamation"></i> Violencia Familiar
+          <span class="section-count" id="violenciaCount">0</span>
+        </h2>
+        <div class="section-actions">
+          <button class="button btn-small add-btn" data-cat="Violencia Familiar">
+            <i class="fa-solid fa-plus"></i> Agregar
+          </button>
+        </div>
+      </div>
+      <div class="table-section">
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th style="width: 20%;">Nombre</th>
+                <th style="width: 12%;">Fecha</th>
+                <th style="width: 15%;">Usuario</th>
+                <th style="width: 18%;">Temática</th>
+                <th style="width: 20%;">Detalle</th>
+                <th style="width: 15%;">Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="violenciaDocuments"></tbody>
+          </table>
+        </div>
+        <div class="pagination-container" id="violenciaPagination">
+          <div class="pagination-info" id="violenciaPaginationInfo">Página 1 de 1</div>
+          <div class="pagination-controls">
+            <button class="page-btn" id="violenciaPrevBtn" disabled>‹</button>
+            <div class="page-numbers" id="violenciaPageNumbers"></div>
+            <button class="page-btn" id="violenciaNextBtn" disabled>›</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="escritosSection">
+      <div class="section-header">
+        <h2 class="section-title">
+          <i class="fa-solid fa-pen-to-square"></i> Escritos
+          <span class="section-count" id="escritosCount">0</span>
+        </h2>
+        <div class="section-actions">
+          <button class="button btn-small add-btn" data-cat="Escritos">
+            <i class="fa-solid fa-plus"></i> Agregar
+          </button>
+        </div>
+      </div>
+      <div class="table-section">
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th style="width: 20%;">Nombre</th>
+                <th style="width: 12%;">Fecha</th>
+                <th style="width: 15%;">Usuario</th>
+                <th style="width: 18%;">Temática</th>
+                <th style="width: 20%;">Detalle</th>
+                <th style="width: 15%;">Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="escritosDocuments"></tbody>
+          </table>
+        </div>
+        <div class="pagination-container" id="escritosPagination">
+          <div class="pagination-info" id="escritosPaginationInfo">Página 1 de 1</div>
+          <div class="pagination-controls">
+            <button class="page-btn" id="escritosPrevBtn" disabled>‹</button>
+            <div class="page-numbers" id="escritosPageNumbers"></div>
+            <button class="page-btn" id="escritosNextBtn" disabled>›</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="modal" id="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 id="modalTitle">Documento</h2>
+        </div>
+        <div class="modal-body">
+          <form id="docForm">
+            <input type="hidden" id="docId" />
+            <input type="hidden" id="docUrlHidden" />
+            <div class="form-row">
+              <label for="docName">Nombre</label>
+              <input id="docName" type="text" required />
+            </div>
+            <div class="form-row">
+              <label for="docCategory">Categoría</label>
+              <select id="docCategory" required>
+                <option value="Civil">Civil</option>
+                <option value="Familia">Familia</option>
+                <option value="Violencia Familiar">Violencia Familiar</option>
+                <option value="Escritos">Escritos</option>
+              </select>
+            </div>
+            <div class="form-row">
+              <label for="docTheme">Temática (opcional)</label>
+              <input id="docTheme" type="text" />
+            </div>
+            <div class="form-row">
+              <label for="docDetail">Detalle</label>
+              <textarea id="docDetail"></textarea>
+            </div>
+            <div class="form-row">
+              <label>URL del archivo</label>
+              <div id="fileUrlWrap"></div>
+            </div>
+            <div id="filePreviewWrap"></div>
+          </form>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="button button-secondary" id="cancelModal">Cancelar</button>
+          <button type="submit" class="button button-success" form="docForm">Guardar</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/js/all.min.js"></script>
+    
+    <script>
+      const firebaseConfig = {
+        apiKey: "AIzaSyCuOFYjLBR-2azWbR6q-R5vd6HFhGyyQ-w",
+        authDomain: "dictamenes6.firebaseapp.com",
+        databaseURL: "https://dictamenes6-default-rtdb.firebaseio.com",
+        projectId: "dictamenes6",
+        storageBucket: "dictamenes6.firebasestorage.app",
+        messagingSenderId: "497353513668",
+        appId: "1:497353513668:web:83ae1af8fd794bb66ec791"
+      };
+
+      firebase.initializeApp(firebaseConfig);
+      const database = firebase.database();
+      const documentsRef = database.ref('documents');
+
+      const CLOUD_NAME = "dttsqsrmk";
+      const UPLOAD_PRESET = "DICTAMEN";
+
+      let documents = [];
+      const currentUser = "Usuario Actual";
+      let targetCategory = null;
+
+      const paginationState = {
+        Civil: { currentPage: 1, itemsPerPage: 5 },
+        Familia: { currentPage: 1, itemsPerPage: 5 },
+        "Violencia Familiar": { currentPage: 1, itemsPerPage: 5 },
+        Escritos: { currentPage: 1, itemsPerPage: 5 }
+      };
+
+      const categoryMap = {
+        "Civil": { container: "civilDocuments", count: "civilCount", section: "civilSection", pagination: "civilPagination", paginationInfo: "civilPaginationInfo", prevBtn: "civilPrevBtn", nextBtn: "civilNextBtn", pageNumbers: "civilPageNumbers" },
+        "Familia": { container: "familiaDocuments", count: "familiaCount", section: "familiaSection", pagination: "familiaPagination", paginationInfo: "familiaPaginationInfo", prevBtn: "familiaPrevBtn", nextBtn: "familiaNextBtn", pageNumbers: "familiaPageNumbers" },
+        "Violencia Familiar": { container: "violenciaDocuments", count: "violenciaCount", section: "violenciaSection", pagination: "violenciaPagination", paginationInfo: "violenciaPaginationInfo", prevBtn: "violenciaPrevBtn", nextBtn: "violenciaNextBtn", pageNumbers: "violenciaPageNumbers" },
+        "Escritos": { container: "escritosDocuments", count: "escritosCount", section: "escritosSection", pagination: "escritosPagination", paginationInfo: "escritosPaginationInfo", prevBtn: "escritosPrevBtn", nextBtn: "escritosNextBtn", pageNumbers: "escritosPageNumbers" }
+      };
+      
+      const openFileBtn = document.getElementById("openFileBtn");
+      const fileInput = document.getElementById("fileInput");
+      const modal = document.getElementById("modal");
+      const docForm = document.getElementById("docForm");
+      const cancelModal = document.getElementById("cancelModal");
+      const fileUrlWrap = document.getElementById("fileUrlWrap");
+      const filePreviewWrap = document.getElementById("filePreviewWrap");
+      const progressWrap = document.getElementById("progressWrap");
+      const progressFill = document.getElementById("progressFill");
+      const progressPercent = document.getElementById("progressPercent");
+      const searchInput = document.getElementById("searchInput");
+
+      documentsRef.on('value', (snapshot) => {
+        const data = snapshot.val();
+        documents = [];
+        if (data) {
+          Object.keys(data).forEach(key => {
+            documents.push({ id: key, ...data[key] });
+          });
+        }
+        renderDocuments(searchInput.value.toLowerCase());
+      });
+      
+      openFileBtn.addEventListener("click", ()=>{ targetCategory=null; fileInput.click(); });
+
+      document.querySelectorAll(".add-btn").forEach(btn=>{
+        btn.addEventListener("click", ()=>{
+          targetCategory = btn.dataset.cat;
+          fileInput.click();
+        });
+      });
+
+      fileInput.addEventListener("change", e=>{
+        const file = e.target.files[0];
+        if(file) uploadFile(file);
+      });
+
+      function uploadFile(file){
+        const url = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/auto/upload`;
+        const fd = new FormData();
+        fd.append("file", file);
+        fd.append("upload_preset", UPLOAD_PRESET);
+
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", url, true);
+
+        xhr.upload.onprogress = e=>{
+          if(e.lengthComputable){
+            const pct = Math.round((e.loaded/e.total)*100);
+            progressWrap.style.display="block";
+            progressFill.style.width=pct+"%";
+            progressPercent.textContent=pct+"%";
+          }
+        };
+        xhr.onload = ()=>{
+          progressWrap.style.display="none";
+          if(xhr.status>=200 && xhr.status<300){
+            const res = JSON.parse(xhr.responseText);
+            openModal(res.secure_url,res.original_filename,file.type);
+          } else {
+            alert("Error al subir archivo");
+          }
+        };
+        xhr.send(fd);
+      }
+
+      function openModal(url,name,type){
+        document.getElementById("docId").value="";
+        document.getElementById("docName").value=name;
+        document.getElementById("docCategory").value= targetCategory || "Civil";
+        document.getElementById("docTheme").value="";
+        document.getElementById("docDetail").value="";
+        document.getElementById("docUrlHidden").value=url;
+        fileUrlWrap.innerHTML=`<a href="${url}" target="_blank" class="doc-link">${url}</a>`;
+        filePreviewWrap.innerHTML = type.startsWith("image/") ? `<img src="${url}" class="preview-img" style="max-width:100%"/>` : "";
+        modal.style.display="flex";
+      }
+
+      cancelModal.addEventListener("click",()=> modal.style.display="none");
+
+      docForm.addEventListener("submit",e=>{
+        e.preventDefault();
+        const id=document.getElementById("docId").value;
+        const doc={
+          name: document.getElementById("docName").value,
+          category: document.getElementById("docCategory").value,
+          theme: document.getElementById("docTheme").value,
+          detail: document.getElementById("docDetail").value,
+          url: document.getElementById("docUrlHidden").value,
+          date: new Date().toLocaleDateString(),
+          user: currentUser
+        };
+
+        if(id){
+          documentsRef.child(id).update(doc);
+        } else {
+          documentsRef.push(doc);
+        }
+        modal.style.display="none";
+      });
+
+      searchInput.addEventListener("input", ()=>{
+        renderDocuments(searchInput.value.toLowerCase());
+      });
+
+      function renderPagination(category, totalItems, itemsPerPage, currentPage) {
+        const { paginationInfo, prevBtn, nextBtn, pageNumbers } = categoryMap[category];
+        const totalPages = Math.ceil(totalItems / itemsPerPage);
+        document.getElementById(paginationInfo).textContent = `Página ${currentPage} de ${totalPages}`;
+        document.getElementById(prevBtn).disabled = currentPage === 1;
+        document.getElementById(nextBtn).disabled = currentPage === totalPages;
+        document.getElementById(prevBtn).onclick = () => { if (currentPage > 1) changePage(category, currentPage - 1); };
+        document.getElementById(nextBtn).onclick = () => { if (currentPage < totalPages) changePage(category, currentPage + 1); };
+        
+        const pageNumbersContainer = document.getElementById(pageNumbers);
+        pageNumbersContainer.innerHTML = '';
+        for (let i = 1; i <= totalPages; i++) {
+          const btn = document.createElement('button');
+          btn.className = `page-btn ${i === currentPage ? 'active' : ''}`;
+          btn.textContent = i;
+          btn.onclick = () => changePage(category, i);
+          pageNumbersContainer.appendChild(btn);
+        }
+      }
+
+      function changePage(category, page) {
+        paginationState[category].currentPage = page;
+        renderDocuments(searchInput.value.toLowerCase());
+      }
+
+      function renderDocuments(filter=""){
+        Object.keys(categoryMap).forEach(cat=>{
+          const {container, count, pagination} = categoryMap[cat];
+          const tbody = document.getElementById(container);
+          let docs = documents.filter(d=>d.category===cat);
+
+          if(filter){
+            docs = docs.filter(d=> d.name.toLowerCase().includes(filter) || (d.theme||"").toLowerCase().includes(filter) );
+          }
+          
+          document.getElementById(count).textContent = docs.length;
+          document.getElementById(pagination).style.display = docs.length > 0 ? "flex" : "none";
+          
+          if (docs.length) {
+            const { currentPage, itemsPerPage } = paginationState[cat];
+            const paginated = docs.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+            // Se han agregado atributos data-label para el modo responsivo (cards en mobile)
+            tbody.innerHTML = paginated.map(d => `
+              <tr>
+                <td data-label="Nombre"><div class="doc-name">${d.name}</div></td>
+                <td data-label="Fecha"><div class="doc-meta">${d.date}</div></td>
+                <td data-label="Usuario"><div class="doc-meta">${d.user}</div></td>
+                <td data-label="Temática"><div class="doc-theme">${d.theme || ''}</div></td>
+                <td data-label="Detalle"><div class="doc-detail">${d.detail || ''}</div></td>
+                <td data-label="Acciones">
+                  <div class="doc-actions">
+                    <a href="${d.url}" target="_blank" class="doc-link">Ver</a>
+                    <button class="edit-btn" onclick="editDoc('${d.id}')">Editar</button>
+                  </div>
+                </td>
+              </tr>
+            `).join("");
+            renderPagination(cat, docs.length, itemsPerPage, currentPage);
+          } else {
+            tbody.innerHTML = `<tr><td colspan="6" class="empty-state">No hay documentos</td></tr>`;
+          }
+        });
+      }
+
+      window.editDoc = function(id){
+        const d = documents.find(x => x.id === id);
+        if(!d) return;
+        document.getElementById("docId").value = d.id;
+        document.getElementById("docName").value = d.name;
+        document.getElementById("docCategory").value = d.category;
+        document.getElementById("docTheme").value = d.theme || "";
+        document.getElementById("docDetail").value = d.detail || "";
+        document.getElementById("docUrlHidden").value = d.url;
+        fileUrlWrap.innerHTML = `<a href="${d.url}" target="_blank" class="doc-link">${d.url}</a>`;
+        modal.style.display = "flex";
+      }
+    </script>
+  </div>
+</body>
+</html>
